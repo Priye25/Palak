@@ -15,7 +15,7 @@
 
 body {
     height: 100vh;
-    background: linear-gradient(180deg, #0f172a, #1e1b4b, #312e81);
+    background: linear-gradient(180deg, #0f172a, #1e1b4b);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,10 +26,10 @@ body {
 /* 🌙 Moon */
 .moon {
     position: absolute;
-    top: 80px;
+    top: 60px;
     right: 80px;
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     background: radial-gradient(circle, #fff, #ddd);
     border-radius: 50%;
     box-shadow: 0 0 40px #fff;
@@ -41,12 +41,29 @@ body {
     width: 2px;
     height: 2px;
     background: white;
+    opacity: 0.8;
     animation: twinkle 2s infinite ease-in-out;
 }
 
 @keyframes twinkle {
     0%, 100% { opacity: 0.2; }
     50% { opacity: 1; }
+}
+
+/* 🌠 Shooting star */
+.shooting-star {
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(-45deg, white, transparent);
+    opacity: 0;
+    animation: shoot 6s infinite;
+}
+
+@keyframes shoot {
+    0% { transform: translateX(0) translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateX(-500px) translateY(200px); opacity: 0; }
 }
 
 /* 💎 Card */
@@ -65,7 +82,6 @@ body {
 h1 {
     font-size: 2.5em;
     color: #f9a8d4;
-    margin-bottom: 15px;
 }
 
 #typing {
@@ -83,8 +99,12 @@ button {
     color: white;
     font-weight: bold;
     cursor: pointer;
-    font-size: 1em;
-    margin: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ec4899;
 }
 
 /* Music Button */
@@ -103,12 +123,15 @@ button {
     left: 0;
     width: 100%;
     height: 60%;
-    background: #111827;
+    background: #0b1220;
     border-radius: 30px 30px 0 0;
     padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     transition: 0.6s;
-    color: #f9a8d4;
+    z-index: 10;
 }
 
 .popup.active {
@@ -116,59 +139,62 @@ button {
 }
 
 .popup p {
+    max-width: 500px;
     font-size: 1.2em;
-    line-height: 1.6;
+    line-height: 1.7;
+    color: #f9a8d4;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌙 Moon -->
 <div class="moon"></div>
 
-<!-- ⭐ Stars -->
 <script>
+// stars
 for (let i = 0; i < 80; i++) {
-    const star = document.createElement("div");
+    let star = document.createElement("div");
     star.className = "star";
     star.style.top = Math.random() * 100 + "vh";
     star.style.left = Math.random() * 100 + "vw";
-    star.style.animationDuration = (Math.random() * 3 + 1) + "s";
     document.body.appendChild(star);
 }
+
+// shooting star
+let shoot = document.createElement("div");
+shoot.className = "shooting-star";
+shoot.style.top = "20%";
+shoot.style.right = "10%";
+document.body.appendChild(shoot);
 </script>
 
-<!-- 💎 Card -->
 <div class="card">
-    <h1>Palak Mera Bachha ❤️</h1>
+    <h1>Palak ❤️</h1>
     <p id="typing"></p>
     <button onclick="startExperience()">Babu Yaha Click Kro 💖</button>
 </div>
 
-<!-- 💌 Popup -->
 <div class="popup" id="popup">
     <p>
-        You are the finest, loveliest, and most beautiful soul I’ve ever known… and honestly, even those words fall short of what you truly are to me ❤️
+        You are the finest, loveliest, and most beautiful soul I’ve ever known…  
+        and honestly, even those words fall short of what you truly are to me ❤️
         <br><br>
         Aur tum mere liye bahut zaruri ho… I feel nothing without you.  
         You are my happy charm 💖
     </p>
 </div>
 
-<!-- 🎵 Music Button -->
-<button class="music-btn" onclick="toggleMusic()">🎵 Music</button>
+<button class="music-btn" onclick="toggleMusic()" id="musicBtn">🎵 Play</button>
 
-<!-- 🎶 Music -->
 <audio id="bgMusic" loop>
     <source src="Music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// Typing
+// typing
 const text = "There’s something about you... I can’t explain it, but I feel it every second ❤️";
 let i = 0;
-
 function typing() {
     if (i < text.length) {
         document.getElementById("typing").innerHTML += text.charAt(i);
@@ -178,18 +204,26 @@ function typing() {
 }
 typing();
 
-// Start
+// start
 function startExperience() {
     const music = document.getElementById("bgMusic");
     music.play();
     document.getElementById("popup").classList.add("active");
+    document.getElementById("musicBtn").innerText = "⏸ Pause";
 }
 
-// Music toggle
+// toggle music
 function toggleMusic() {
     const music = document.getElementById("bgMusic");
-    if (music.paused) music.play();
-    else music.pause();
+    const btn = document.getElementById("musicBtn");
+
+    if (music.paused) {
+        music.play();
+        btn.innerText = "⏸ Pause";
+    } else {
+        music.pause();
+        btn.innerText = "🎵 Play";
+    }
 }
 </script>
 
