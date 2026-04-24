@@ -15,33 +15,34 @@
 
 body {
     height: 100vh;
-    background: radial-gradient(circle at top, #1a001f, #000);
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* NEW SOFT BG */
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    color: white;
+    color: #333;
 }
 
-/* Bigger Card */
+/* Card */
 .card {
     width: 90%;
-    max-width: 550px;   /* Increased */
-    padding: 40px;      /* Increased */
+    max-width: 550px;
+    padding: 40px;
     border-radius: 30px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(25px);
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(20px);
     text-align: center;
-    box-shadow: 0 0 60px rgba(255, 46, 138, 0.4);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
 }
 
-/* Bigger Heading */
+/* Heading */
 h1 {
     font-size: 2.8em;
+    color: #ff4e8a;
     margin-bottom: 15px;
 }
 
-/* Bigger text */
+/* Text */
 #typing {
     font-size: 1.3em;
     margin: 20px 0;
@@ -53,7 +54,7 @@ button {
     padding: 14px 30px;
     border: none;
     border-radius: 40px;
-    background: linear-gradient(45deg, #ff2e8a, #ff7eb3);
+    background: linear-gradient(45deg, #ff4e8a, #ff7eb3);
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -67,7 +68,7 @@ button {
     bottom: 20px;
     right: 20px;
     background: white;
-    color: #ff2e8a;
+    color: #ff4e8a;
 }
 
 /* Popup */
@@ -76,12 +77,13 @@ button {
     bottom: -100%;
     left: 0;
     width: 100%;
-    height: 65%;
-    background: rgba(0,0,0,0.95);
+    height: 60%;
+    background: white;
     border-radius: 30px 30px 0 0;
     padding: 30px;
     text-align: center;
     transition: 0.6s;
+    color: #ff4e8a;
 }
 
 .popup.active {
@@ -104,7 +106,6 @@ button {
     100% { transform: translateY(-10vh); opacity: 0; }
 }
 
-/* Mobile tweak */
 @media (max-width: 500px) {
     h1 { font-size: 2em; }
     #typing { font-size: 1.1em; }
@@ -115,9 +116,9 @@ button {
 <body>
 
 <div class="card">
-    <h1>Hi Palak, Mera Bachha ❤️</h1>
+    <h1>Hi Palak ❤️</h1>
     <p id="typing"></p>
-    <button onclick="startExperience()"> Click Here Babu💖</button>
+    <button onclick="startExperience()">Feel My Heart 💖</button>
 </div>
 
 <!-- Popup -->
@@ -130,11 +131,7 @@ button {
 <!-- Music Button -->
 <button class="music-btn" onclick="toggleMusic()">🎵 Music</button>
 
-<!-- Audio -->
-<audio id="heartbeat">
-    <source src="Heartbeat.mp3" type="audio/mpeg">
-</audio>
-
+<!-- Only Background Music -->
 <audio id="bgMusic" loop>
     <source src="Music.mp3" type="audio/mpeg">
 </audio>
@@ -164,26 +161,10 @@ function createHeart() {
 }
 setInterval(createHeart, 300);
 
-// Experience
+// Start Experience (no heartbeat now)
 function startExperience() {
-    const heartbeat = document.getElementById("heartbeat");
     const music = document.getElementById("bgMusic");
-
-    heartbeat.play();
-
-    setTimeout(() => {
-        music.volume = 0;
-        music.play();
-
-        let vol = 0;
-        const fade = setInterval(() => {
-            if (vol < 1) {
-                vol += 0.05;
-                music.volume = vol;
-            } else clearInterval(fade);
-        }, 200);
-    }, 2000);
-
+    music.play();
     document.getElementById("popup").classList.add("active");
 }
 
